@@ -1,27 +1,25 @@
-
-# what is the actual goal
-
-# to pars a html file and get info from it
 import re
 
-pokemon_list = []
-lines = []
+def create_pokemon_list() -> list[str]:
 
-with open("data/giant_bomb_original_150.html", mode='r') as f:
-    lines = f.readlines()
+    pokemon_list = []
+    lines = []
 
-for i, l in enumerate(lines):
-    l = re.search(r"<h3>.+</h3>", l)
+    with open("data/giant_bomb_original_150.html", mode='r') as f:
+        lines = f.readlines()
 
-    if l:
-        first_space = 0
-        for c in l.group():
-            first_space += 1
-            if c == ' ':
-                break
+    for l in lines:
+        m = re.search(r"<h3>.+</h3>", l)
 
-        pokemon_list.append(l.group()[first_space:-5])
+        if m:
+            first_space = 0
+            for c in m.group():
+                first_space += 1
+                if c == ' ':
+                    break
 
-for f in pokemon_list:
-    print(f)
-    
+            pokemon_list.append(m.group()[first_space:-5])
+
+    return pokemon_list
+ 
+# print(create_pokemon_list())
